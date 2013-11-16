@@ -9,21 +9,21 @@ using Punk.Utils;
 
 namespace Punk
 {
-    class Asteroid : Entity
+    class Asteroid : SpaceObject
     {
         protected Image image;
         public SFML.Window.Vector2f vel;
         public float rot;
 
-        public Asteroid(float x, float y)
-            :base(x, y)
+        public Asteroid(float x, float y, uint right, uint bottom)
+            :base(x, y, right, bottom)
         {
             vel.X = FP.Rand(100) * FP.Choose(1, -1);
             vel.Y = FP.Rand(100) * FP.Choose(1, -1);
             rot = FP.Random * (float)Math.PI * FP.Choose(1,-1);
             Height = Width = (int)FP.Rand(20) + 20;
 
-            Graphic = image = Image.CreateRect((uint)Width, (uint)Height, FP.Color(0x333333));
+            Graphic = image = Image.CreateRect((uint)Width, (uint)Height, FP.Color(FP.Rand(0xFFFFFF)));
             CenterOrigin();
             image.CenterOO();
         }

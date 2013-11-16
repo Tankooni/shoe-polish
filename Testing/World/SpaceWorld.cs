@@ -13,17 +13,16 @@ namespace Punk
 	class SpaceWorld : World
 	{
 		protected Sector[,] Sectors = new Sector[10, 10];
-
+		public static uint WorldLength = Sector.SectorSize * 10;
+        public static uint WorldHeight = Sector.SectorSize * 10;
 		public SpaceWorld()
 		{
 		}
 			
 		public override void Begin()
 		{
-			
 			base.Begin();
 			FP.Engine.ClearColor = FP.Color(0xff00ff);
-			FP.Log(Sectors.Length);
 			for (int x = 0; x < Sectors.GetLength(0) - 1; x++)
 			{
 				for (int y = 0; y < Sectors.GetLength(1) - 1; y++)
@@ -34,13 +33,14 @@ namespace Punk
 					Add(Sectors[x, y]);
 				}
 			}
+            FP.Log(WorldHeight);
 			//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
 			//Input.Pressed(Mouse.Button.Left);
 		}
 
 		public override void Update()
 		{
-			FP.Camera.Angle += (float)Math.PI / 5;
+			//FP.Camera.Angle += (float)Math.PI / 5;
 			base.Update();
 			if (Input.Down(Keyboard.Key.Up))
 			{
