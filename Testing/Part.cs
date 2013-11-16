@@ -343,11 +343,12 @@ namespace Testing
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
             Y = y;
-            Velocity = VelocityIn;
+            
             BulletShot.CenterOO();
             SetHitboxTo(BulletShot);
             CenterOrigin();
             myShip = ShipIn as Ship;
+            Velocity = VelocityIn + myShip.Velocity;
         }
 
         public override bool MoveCollideX(Entity e)
