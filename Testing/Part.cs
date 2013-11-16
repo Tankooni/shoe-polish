@@ -16,6 +16,7 @@ namespace Testing
         public int curRow;
         public int curCol;
         public Ship myShip;
+        public int health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {
@@ -71,6 +72,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 200;
             }
             else if (PartItem == 2)
             {
@@ -78,13 +80,14 @@ namespace Testing
                 aPart = Thruster;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 100;
             }
             else if (PartItem == 3)
             {
                 Image Turret = new Image(Library.GetTexture("Turret.png"));
                 aPart = Turret;
 
-
+                health = 50;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
 
@@ -109,6 +112,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 200;
             }
             if (PartItem == 2)
             {
@@ -117,6 +121,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 100;
             }
             else if (PartItem == 3)
             {
@@ -126,7 +131,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-
+                health = 50;
             }
         }
         public override void Added()
@@ -202,6 +207,9 @@ namespace Testing
         {
             base.Update();
 
+            if (health <= 0)
+                World.Remove(this);
+
             if (Attached)
             {
                 SetHitboxTo(aPart);
@@ -226,7 +234,7 @@ namespace Testing
                         if (Mouse.IsButtonPressed(Mouse.Button.Right))
                         {
                         
-                            World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5)));
+                            World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5), myShip));
                         }
                     
                     }
@@ -283,11 +291,14 @@ namespace Testing
         }
     }
 
-    public class Bullet : Entity
+    public class Bullet : Punk.SpaceObject
     {
         private Vector2f Velocity;
         private Image BulletShot;
-        public Bullet(float x, float y, Vector2f VelocityIn)
+        Ship myShip;
+        float life = 1;
+        public Bullet(float x, float y, Vector2f VelocityIn, Entity ShipIn)
+            : base(x, y, Punk.SpaceWorld.WorldLength, Punk.SpaceWorld.WorldHeight)
         {
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
@@ -296,13 +307,37 @@ namespace Testing
             BulletShot.CenterOO();
             SetHitboxTo(BulletShot);
             CenterOrigin();
+            myShip = ShipIn as Ship;
+        }
+
+        public override bool MoveCollideX(Entity e)
+        {
+            return base.MoveCollideX(e);
+        }
+        public override bool MoveCollideY(Entity e)
+        {
+            return base.MoveCollideY(e);
+        }
+        public bool Collided(Entity e)
+        {
+            if (e is PartBase)
+            {
+                if ((e as PartBase).myShip == myShip)
+                {
+                    FP.Log("Stop Hitting Yourself");
+                    return false;
+                }
+            }
+            return true;
+             
         }
 
         public override void Update()
         {
             base.Update();
-            X += Velocity.X * 2;
-            Y += Velocity.Y * 2;
+            if ((life -= FP.Elapsed) <= 0)
+                World.Remove(this);
+            MoveBy(Velocity.X * 2,  Velocity.Y * 2);
         }
     }
 

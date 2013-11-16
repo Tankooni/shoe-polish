@@ -17,6 +17,8 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
+        public int mass, forwardThrust, leftThrust, rightThrust;
+
         public Ship()
         {
             shipParts = new List<PartBase>();
