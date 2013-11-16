@@ -247,6 +247,10 @@ namespace Testing
                     }
                     World.Remove(myShip);
                 }
+                else
+                {
+                    World.Remove(this);
+                }
             }
 
             if (Attached)
