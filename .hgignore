@@ -1,0 +1,18 @@
+syntax: glob
+**.exe
+**.pdb
+obj/x86/Debug/Punk.csproj.FileListAbsolute.txt
+obj/x86/Debug/ResolveAssemblyReference.cache
+Testing/obj/x86/Debug/Testing.csproj.FileListAbsolute.txt
+obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+Punk.suo
+Testing/bin/Debug/Punk.dll
+obj/x86/Debug/Punk.dll
+bin/Debug/Punk.dll
+obj/x86/Debug/GenerateResource.write.1.tlog
+obj/x86/Debug/GenerateResource.read.1.tlog
+obj/Debug/Punk.csproj.FileListAbsolute.txt
+obj/Debug/GenerateResource.write.1.tlog
+obj/Debug/GenerateResource.read.1.tlog
+Testing/bin
+bin

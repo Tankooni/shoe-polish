@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{A553D862-7695-4471-97F5-4AF38E0907ED}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Punk</RootNamespace>
+    <AssemblyName>Punk</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <DocumentationFile>bin\Debug\Punk.xml</DocumentationFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <DocumentationFile>bin\Debug\Punk.xml</DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>3</WarningLevel>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fasterflect">
+      <HintPath>lib\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-audio-2">
+      <HintPath>lib\sfmlnet-audio-2.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-graphics-2">
+      <HintPath>lib\sfmlnet-graphics-2.dll</HintPath>
+    </Reference>
+    <Reference Include="sfmlnet-window-2">
+      <HintPath>lib\sfmlnet-window-2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Camera.cs" />
+    <Compile Include="Debugging\Console.cs" />
+    <Compile Include="Engine.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Entity.cs" />
+    <Compile Include="FP.cs" />
+    <Compile Include="Graphics\Anim.cs" />
+    <Compile Include="Graphics\Backdrop.cs" />
+    <Compile Include="Graphics\Emitter.cs" />
+    <Compile Include="Graphics\Graphic.cs" />
+    <Compile Include="Graphics\Graphiclist.cs" />
+    <Compile Include="Graphics\Image.cs" />
+    <Compile Include="Graphics\Nineslice.cs" />
+    <Compile Include="Graphics\Particle.cs" />
+    <Compile Include="Graphics\ParticleType.cs" />
+    <Compile Include="Graphics\SpineAnimation.cs" />
+    <Compile Include="Graphics\Spine\Animation.cs" />
+    <Compile Include="Graphics\Spine\AnimationState.cs" />
+    <Compile Include="Graphics\Spine\AnimationStateData.cs" />
+    <Compile Include="Graphics\Spine\Atlas.cs" />
+    <Compile Include="Graphics\Spine\Attachments\AtlasAttachmentLoader.cs" />
+    <Compile Include="Graphics\Spine\Attachments\Attachment.cs" />
+    <Compile Include="Graphics\Spine\Attachments\AttachmentLoader.cs" />
+    <Compile Include="Graphics\Spine\Attachments\AttachmentType.cs" />
+    <Compile Include="Graphics\Spine\Attachments\RegionAttachment.cs" />
+    <Compile Include="Graphics\Spine\Bone.cs" />
+    <Compile Include="Graphics\Spine\BoneData.cs" />
+    <Compile Include="Graphics\Spine\Json.cs" />
+    <Compile Include="Graphics\Spine\PunkTextureLoader.cs" />
+    <Compile Include="Graphics\Spine\Skeleton.cs" />
+    <Compile Include="Graphics\Spine\SkeletonData.cs" />
+    <Compile Include="Graphics\Spine\SkeletonJson.cs" />
+    <Compile Include="Graphics\Spine\Skin.cs" />
+    <Compile Include="Graphics\Spine\Slot.cs" />
+    <Compile Include="Graphics\Spine\SlotData.cs" />
+    <Compile Include="Graphics\Spritemap.cs" />
+    <Compile Include="Graphics\Stamp.cs" />
+    <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="Logic\Logic.cs" />
+    <Compile Include="Masks\Grid.cs" />
+    <Compile Include="Masks\Hitbox.cs" />
+    <Compile Include="Masks\Mask.cs" />
+    <Compile Include="Masks\Masklist.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Music.cs" />
+    <Compile Include="Sfx.cs" />
+    <Compile Include="Tween.cs" />
+    <Compile Include="Tweener.cs" />
+    <Compile Include="Tweens\Misc\Alarm.cs" />
+    <Compile Include="Tweens\Misc\AngleTween.cs" />
+    <Compile Include="Tweens\Misc\ColorTween.cs" />
+    <Compile Include="Tweens\Misc\MultiVarTween.cs" />
+    <Compile Include="Tweens\Misc\NumTween.cs" />
+    <Compile Include="Tweens\Misc\VarTween.cs" />
+    <Compile Include="Tweens\Misc\VarTweenInfo.cs" />
+    <Compile Include="Tweens\Motion\Motion.cs" />
+    <Compile Include="Tweens\Motion\QuadPath.cs" />
+    <Compile Include="Utils\Controller.cs" />
+    <Compile Include="Utils\Draw.cs" />
+    <Compile Include="Utils\Ease.cs" />
+    <Compile Include="Utils\GridType.cs" />
+    <Compile Include="Utils\Input.cs" />
+    <Compile Include="Utils\Inputs\Axis.cs" />
+    <Compile Include="Utils\Inputs\InputList.cs" />
+    <Compile Include="Utils\Inputs\InputStates.cs" />
+    <Compile Include="Utils\MessageResult.cs" />
+    <Compile Include="Utils\OgmoClass.cs" />
+    <Compile Include="Utils\Reflect.cs" />
+    <Compile Include="Utils\VectorHelper.cs" />
+    <Compile Include="World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Graphics\Spine" />
+    <Folder Include="Graphics\Spine\Attachments" />
+    <Folder Include="Logic" />
+    <Folder Include="Debugging" />
+    <Folder Include="Resources" />
+    <Folder Include="Tweens\Motion" />
+    <Folder Include="Utils\Inputs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Embeds.resx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>
