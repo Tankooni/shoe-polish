@@ -43,6 +43,11 @@ namespace Punk
 				Add(new Part(2));
 			}
 			Add(new Part(e, 3, 0, 0));
+            for (int i = 0; i < 10; i++)
+            {
+                Add(new EmptyShip());
+            }
+
 			FP.Log(WorldHeight);
 			//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
 			//Input.Pressed(Mouse.Button.Left);
