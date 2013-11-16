@@ -54,7 +54,7 @@ namespace Testing
             //Thruster = Image.CreateCircle(16, FP.Color(0xFFFF00));
             //Thrusters.Add(Thruster);
 
-            AddGraphic(ShipCenter);
+            //AddGraphic(ShipCenter);
             //AddGraphic(MainShip1);
             //ShipArray[1, 2] = MainShip1;
             //AddGraphic(MainShip2);

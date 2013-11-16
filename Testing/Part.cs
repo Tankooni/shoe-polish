@@ -39,7 +39,7 @@ namespace Testing
 
         private float Distance;
         private float angle;
-
+        private int PartNum;
         private bool Flying;
         private bool Dragging;
         private bool Attached;
@@ -62,21 +62,32 @@ namespace Testing
             float C = (float)Math.Sqrt(A + B);
             Distance = C;
             angle = (float)Math.Atan2(Col, Row) * (180 / (float)Math.PI);
+            PartNum = PartItem;
             myShip = e as Ship;
             myShip.shipParts.Add(this);
             if (PartItem == 1)
             {
-                aPart = Image.CreateRect(32, 32, FP.Color(0x00ffff));
-
+                Image Hull = new Image(Library.GetTexture("MetalPlating.png"));
+                aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
             }
             else if (PartItem == 2)
             {
-                aPart = Image.CreateCircle(16, FP.Color(0xFFFF00));
+                Image Thruster = new Image(Library.GetTexture("Thruster.png"));
+                aPart = Thruster;
+                AddGraphic(aPart);
+                SetHitboxTo(aPart);
+            }
+            else if (PartItem == 3)
+            {
+                Image Turret = new Image(Library.GetTexture("Turret.png"));
+                aPart = Turret;
+
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+
             }
 
 
@@ -94,16 +105,28 @@ namespace Testing
 
             if (PartItem == 1)
             {
-                aPart = Image.CreateRect(32, 32, FP.Color(0x00ffff));
+                Image Hull = new Image(Library.GetTexture("MetalPlating.png"));
+                aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
             }
             if (PartItem == 2)
             {
-                aPart = Image.CreateCircle(16, FP.Color(0xFFFF00));
+                Image Thruster = new Image(Library.GetTexture("Thruster.png"));
+                aPart = Thruster;
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+            }
+            else if (PartItem == 3)
+            {
+                Image Turret = new Image(Library.GetTexture("Turret.png"));
+                aPart = Turret;
+                
+
+                AddGraphic(aPart);
+                SetHitboxTo(aPart);
+
             }
         }
         public override void Added()
@@ -189,6 +212,35 @@ namespace Testing
                 FP.RotateAround(ref X, ref Y, myShip.X, myShip.Y, myShip.ShipCenter.Angle + angle, false);
 
                 aPart.Angle = myShip.ShipCenter.Angle;
+
+                if (PartNum == 3)
+                {
+                
+                    FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
+                
+                
+                    if ((myShip.ShipCenter.Angle + 45 > FP.Angle(X, Y, World.MouseX, World.MouseY)) && (myShip.ShipCenter.Angle - 45 < FP.Angle(X, Y, World.MouseX, World.MouseY)))
+                    {
+                        //LastRot = FP.Angle(X, Y, World.MouseX, World.MouseY);
+                        aPart.Angle = FP.Angle(X, Y, World.MouseX, World.MouseY);
+                        if (Mouse.IsButtonPressed(Mouse.Button.Right))
+                        {
+                        
+                            World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5)));
+                        }
+                    
+                    }
+                    else
+                    {
+                        aPart.Angle = myShip.ShipCenter.Angle;
+                    }
+
+                }
+                else
+                {
+                    aPart.Angle = myShip.ShipCenter.Angle;
+                
+                }
             }
             else
             {
@@ -230,4 +282,29 @@ namespace Testing
 
         }
     }
+
+    public class Bullet : Entity
+    {
+        private Vector2f Velocity;
+        private Image BulletShot;
+        public Bullet(float x, float y, Vector2f VelocityIn)
+        {
+            Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
+            X = x;
+            Y = y;
+            Velocity = VelocityIn;
+            BulletShot.CenterOO();
+            SetHitboxTo(BulletShot);
+            CenterOrigin();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            X += Velocity.X * 2;
+            Y += Velocity.Y * 2;
+        }
+    }
+
 }
+
