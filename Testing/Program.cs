@@ -4,14 +4,17 @@ using Punk.Tweens.Misc;
 using Punk.Utils;
 using SFML.Window;
 using Testing;
+using Testing.MainMenu;
 
 namespace Punk
 {
     class Game : Engine
     {
+        
         public static void Main(string[] args)
         {
             var game = new Game();
+           
         }
 
         private class myShip : Entity
@@ -41,8 +44,10 @@ namespace Punk
 
         private class MyWorld : World
         {
+            
             public MyWorld()
             {
+                
             }
 
             public override void Begin()
@@ -69,13 +74,18 @@ namespace Punk
         public Game() :
             base(1280, 960, 60)
         {
+            
         }
-
+        
         public override void Init()
         {
             base.Init();
-
-            FP.World = new SpaceWorld();
+           
+                FP.World = new MenuWorld();
+            
+            
+            //FP.World = new SpaceWorld();
+            
             FP.Screen.GainedFocus += delegate { Library.Reload(); };
 
             FP.Console.Enable();
