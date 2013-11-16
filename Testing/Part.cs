@@ -17,6 +17,9 @@ namespace Testing
         public int curCol;
         public BaseShip myShip;
         public float health = 100;
+        public int MyType;
+        public float rotationOffSet;
+        public int health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {
@@ -24,7 +27,10 @@ namespace Testing
             curCol = Col;
             curRow = Row;
             myShip = e as BaseShip;
+            myShip = e as Ship;
+            MyType = PartItem;
         }
+
         public PartBase(int PartItem)
         {
 
@@ -55,8 +61,6 @@ namespace Testing
         private Sfx TurretSfx = new Sfx(Library.GetBuffer("TurretFire.Wav"));
         private Sfx EquipSfx = new Sfx(Library.GetBuffer("Docking.Wav"));
 
-        private int MyType;
-
         public Part(Entity e, int PartItem, int Col, int Row) : base(e, PartItem, Col, Row)
         {
             Flying = true;
@@ -67,6 +71,8 @@ namespace Testing
 
             MyType = PartItem;
             Attached = true;
+
+            rotationOffSet = 0;
 
             int A = (32 * Col) * (32 * Col);
             int B = (32 * Row) * (32 * Row);
@@ -186,19 +192,19 @@ namespace Testing
                     }
                     if (top)
                     {
-                        World.Add(new EmptyPart(myShip, curCol, curRow + 1));
+                        World.Add(new EmptyPart(myShip, curCol, curRow + 1, curCol, curRow));
                     }
                     if (right)
                     {
-                        World.Add(new EmptyPart(myShip, curCol + 1, curRow));
+                        World.Add(new EmptyPart(myShip, curCol + 1, curRow, curCol, curRow));
                     }
                     if (bottom)
                     {
-                        World.Add(new EmptyPart(myShip, curCol, curRow - 1));
+                        World.Add(new EmptyPart(myShip, curCol, curRow - 1, curCol, curRow));
                     }
                     if (left)
                     {
-                        World.Add(new EmptyPart(myShip, curCol - 1, curRow));
+                        World.Add(new EmptyPart(myShip, curCol - 1, curRow, curCol, curRow));
                     }
                 }
             }
@@ -272,7 +278,7 @@ namespace Testing
                 }
                 else
                 {
-                    aPart.Angle = myShip.ShipCenter.Angle;
+                    aPart.Angle = myShip.ShipCenter.Angle + rotationOffSet;
                 
                 }
             }
@@ -284,7 +290,15 @@ namespace Testing
                 EmptyPart temp = World.CollideRect("EmptyPart", X, Y, Width, Height) as EmptyPart;
                 if (temp != null)
                 {
-                    World.Add(new Part(temp.myShip, MyType, temp.curCol, temp.curRow));
+                    float t = (float)Math.Atan2(temp.curRow - temp.parentRow, temp.curCol - temp.parentCol);
+                    Part add = new Part(temp.myShip, MyType, temp.curCol, temp.curRow);
+                    add.rotationOffSet = (t * FP.DEG) - 90;
+                    add.rotationOffSet = (float)Math.Round(add.rotationOffSet);
+                    if (add.rotationOffSet < 0.0002 && add.rotationOffSet > -0.0002)
+                    {
+                        add.rotationOffSet = 0;
+                    }
+                    World.Add(add);
                     World.Remove(temp);
                     World.Remove(this);
                 }

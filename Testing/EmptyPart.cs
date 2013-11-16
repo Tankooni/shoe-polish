@@ -15,13 +15,17 @@ namespace Testing
     {
         private float Distance;
         private float angle;
+        public float parentCol;
+        public float parentRow;
 
-        public EmptyPart(Entity e, int Col, int Row) : base(e, Col, Row)
+        public EmptyPart(Entity e, int Col, int Row, int PCol, int PRow) : base(e, Col, Row)
         {
             Type = "EmptyPart";
 
             curCol = Col;
             curRow = Row;
+            parentCol = PCol;
+            parentRow = PRow;
 
             int A = (32 * Col) * (32 * Col);
             int B = (32 * Row) * (32 * Row);
