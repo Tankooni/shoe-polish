@@ -11,31 +11,20 @@ using Punk;
 
 namespace Testing
 {
-    public class Ship:Entity
+    public class Ship : Entity
     {
         public Image ShipCenter;
-        //private Image MainShip1;
-        //private Image MainShip2;
-        //private Image MainShip3;
-        //private Image MainShip4;
-        //private Image MainShip5;
-        //private Image MainShip6;
-        //private Image MainShip7;
-        //private Image MainShip8;
-        //private Image MainShip9;
-       
-        private Image[,] ShipArray = new Image[7,7];
-        
-        private List<Image> Thrusters = new List<Image>();
-        private Image Thruster;
+
+        public List<PartBase> shipParts;
 
         public Ship()
         {
+            shipParts = new List<PartBase>();
         }
 
-        public override void  Added()
+        public override void Added()
         {
- 	         base.Added();
+            base.Added();
             //var AddPart1 = new Part(1);
             //var AddPart2 = new Part(1);
             //var AddPart3 = new Part(1);
@@ -45,10 +34,10 @@ namespace Testing
             //var AddPart7 = new Part(1);
             //var AddPart8 = new Part(1);
             //var AddPart9 = new Part(1);
-            
+
 
             Type = "Ship";
-            ShipCenter = Image.CreateRect(64 , 64, FP.Color(0xffffff));
+            ShipCenter = Image.CreateRect(64, 64, FP.Color(0xffffff));
             //MainShip1 = AddPart1.GetImage();
 
             //MainShip2 = AddPart2.GetImage();
@@ -59,7 +48,7 @@ namespace Testing
             //MainShip7 = AddPart7.GetImage();
             //MainShip8 = AddPart8.GetImage();
             //MainShip9 = AddPart9.GetImage();
-            
+
             //Thruster = Image.CreateCircle(16, FP.Color(0xFFFF00));
             //Thrusters.Add(Thruster);
             //Thruster = Image.CreateCircle(16, FP.Color(0xFFFF00));
@@ -104,8 +93,8 @@ namespace Testing
             //ShipArray[0, 3] = Thrusters[1];
 
             ShipCenter.CenterOO();
-            
-            
+
+
 
             ////Top left Frame
             //MainShip1.OriginX = MainShip1.Width + MainShip1.Width / 2;
@@ -144,24 +133,16 @@ namespace Testing
             //MainShip9.OriginX = -MainShip9.Width + MainShip9.Width / 2;
             //MainShip9.OriginY = -MainShip9.Height + MainShip9.Height / 2;
 
-            
+
 
             X = FP.HalfWidth;
-            Y = FP.HalfHeight;                
+            Y = FP.HalfHeight;
         }
 
         public override void Update()
         {
             base.Update();
 
-            if (ShipCenter.Angle > 360)
-            {
-                ShipCenter.Angle =  ShipCenter.Angle - 360;
-            }
-            if (ShipCenter.Angle < 0)
-            {
-                ShipCenter.Angle = 360 + ShipCenter.Angle;
-            }
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
                 X += (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
@@ -184,8 +165,8 @@ namespace Testing
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
-                X -= (float) Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
-                Y -= (float) Math.Sin(FP.RAD * ShipCenter.Angle) * 5;
+                X -= (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
+                Y -= (float)Math.Sin(FP.RAD * ShipCenter.Angle) * 5;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
@@ -199,18 +180,8 @@ namespace Testing
             }
             SetHitboxTo(ShipCenter);
             CenterOrigin();
-            for (int j = 0; j < 6; j++)
-            {
-                for (int k = 0; k < 6; k++)
-                {
-                    if (ShipArray[k, j] != null)
-                    {
-                        ShipArray[k, j].Angle = ShipCenter.Angle;
-                        
-                        
-                    }
-                }
-            }
+            FP.Camera.X = X;
+            FP.Camera.Y = Y;
         }
     }
 
