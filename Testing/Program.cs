@@ -147,6 +147,7 @@ namespace Punk
                     Add(new Part(1));
                     Add(new Part(2));
                 }
+                Add(new Part(e, 3, 0, 0));
                 //Add(new Part(e, 1, -1, -1));
                 //Add(new Part(e, 1, -1, 0));
                 //Add(new Part(e, 1, -1, 1));

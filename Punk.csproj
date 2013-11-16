@@ -143,15 +143,7 @@
     <Compile Include="Utils\VectorHelper.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Graphics\Spine" />
-    <Folder Include="Graphics\Spine\Attachments" />
-    <Folder Include="Logic" />
-    <Folder Include="Debugging" />
-    <Folder Include="Resources" />
-    <Folder Include="Tweens\Motion" />
-    <Folder Include="Utils\Inputs" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\Embeds.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
