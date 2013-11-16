@@ -81,7 +81,7 @@ namespace Testing
             }
             //X += Velocity.X;
             //Y += Velocity.Y;
-            FP.Log(X, Y);
+            //FP.Log(X, Y);
         }
     }
     public class Ship : BaseShip
@@ -152,12 +152,12 @@ namespace Testing
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                ShipCenter.Angle -= rightThrust;
+                ShipCenter.Angle += rightThrust;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                ShipCenter.Angle += leftThrust;
+                ShipCenter.Angle -= leftThrust;
             }
             //SetHitboxTo(ShipCenter);
             //CenterOrigin();
