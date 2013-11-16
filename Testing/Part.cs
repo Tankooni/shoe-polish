@@ -11,11 +11,12 @@ using Punk;
 
 namespace Testing
 {
-    public class PartBase : Entity
+    public abstract class PartBase : Entity
     {
         public int curRow;
         public int curCol;
         public Ship myShip;
+        public float health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {
@@ -31,6 +32,14 @@ namespace Testing
         public PartBase(Entity e, int Col, int Row)
         {
 
+        }
+
+        public virtual bool DoDamage(float damage)
+        {
+            health -= damage;
+            if (health < 0)
+                return true;
+            return false;
         }
     }
     public class Part : PartBase
@@ -74,6 +83,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 200;
             }
             else if (PartItem == 2)
             {
@@ -82,6 +92,7 @@ namespace Testing
                 aPart = Thruster;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 100;
             }
             else if (PartItem == 3)
             {
@@ -89,7 +100,7 @@ namespace Testing
                 Image Turret = new Image(Library.GetTexture("Turret.png"));
                 aPart = Turret;
 
-
+                health = 50;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
 
@@ -114,6 +125,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 200;
             }
             if (PartItem == 2)
             {
@@ -122,6 +134,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
+                health = 100;
             }
             else if (PartItem == 3)
             {
@@ -131,7 +144,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-
+                health = 50;
             }
         }
         public override void Added()
@@ -207,6 +220,9 @@ namespace Testing
         {
             base.Update();
 
+            if (health <= 0)
+                World.Remove(this);
+
             if (Attached)
             {
                 SetHitboxTo(aPart);
@@ -221,7 +237,7 @@ namespace Testing
                 if (PartNum == 3)
                 {
                 
-                    FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
+                    //FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
 
                     if (myShip.ShipCenter.Angle + 2 > 360)
                     {
@@ -242,7 +258,7 @@ namespace Testing
                             TurretSfx.Pitch = TurretSfx.Pitch + 0.1f;
                             TurretSfx.Play();
                             
-                            World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5)));
+                            World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5), myShip));
                         }
                     
                     }
@@ -300,12 +316,16 @@ namespace Testing
         }
     }
 
-    public class Bullet : Entity
+    public class Bullet : Punk.SpaceObject
     {
         private Vector2f Velocity;
         private Image BulletShot;
-        public Bullet(float x, float y, Vector2f VelocityIn)
+        Ship myShip;
+        float life = 1;
+        public Bullet(float x, float y, Vector2f VelocityIn, Entity ShipIn)
+            : base(x, y, Punk.SpaceWorld.WorldLength, Punk.SpaceWorld.WorldHeight)
         {
+            Type = "Bullet";
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
             Y = y;
@@ -313,13 +333,41 @@ namespace Testing
             BulletShot.CenterOO();
             SetHitboxTo(BulletShot);
             CenterOrigin();
+            myShip = ShipIn as Ship;
+        }
+
+        public override bool MoveCollideX(Entity e)
+        {
+            return Collided(e);
+        }
+        public override bool MoveCollideY(Entity e)
+        {
+            return Collided(e);
+        }
+        public bool Collided(Entity e)
+        {
+            if (e is Part)
+            {
+                if ((e as Part).myShip == myShip)
+                {
+                    return false;
+                }
+                (e as Part).DoDamage(4);
+            }
+            else if (e is Punk.Asteroid)
+                (e as Punk.Asteroid).DoDamage(4);
+            World.Remove(this);
+            return true;
+            
         }
 
         public override void Update()
         {
             base.Update();
-            X += Velocity.X * 2;
-            Y += Velocity.Y * 2;
+            MoveBy(Velocity.X * 2, Velocity.Y * 2, new string[] {"Asteroid", "Part"});
+            if ((life -= FP.Elapsed) <= 0)
+                World.Remove(this);
+            
         }
     }
 

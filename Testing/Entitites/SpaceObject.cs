@@ -5,21 +5,25 @@ using System.Text;
 
 namespace Punk
 {
-    class SpaceObject : Entity
+    public class SpaceObject : Entity
     {
         uint rightBound = 0;
         uint bottomBound = 0;
+        public float health = 100;
 
         public SpaceObject(float x, float y, uint right, uint bottom)
             :base(x, y)
         {
-            rightBound = right;
-            bottomBound = bottom;
+            rightBound = right-Sector.SectorSize;
+            bottomBound = bottom - Sector.SectorSize;
         }
 
         public override void Update()
         {
             base.Update();
+
+            if (health <= 0)
+                World.Remove(this);
 
             if (X > rightBound)
                 X = 0;
@@ -31,5 +35,9 @@ namespace Punk
                 Y = bottomBound;
         }
 
+        public virtual void DoDamage(float damage)
+        {
+            health -= damage;
+        }
     }
 }
