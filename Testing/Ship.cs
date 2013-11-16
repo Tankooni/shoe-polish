@@ -157,12 +157,7 @@ namespace Testing
                 //AddTween(tween2, true);
 
             }
-            else
-            {
-                //Thrusters[0].Scale = 1;
-                //Thrusters[1].Scale = 1;
-                ClearTweens();
-            }
+          
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 X -= (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
@@ -178,8 +173,8 @@ namespace Testing
             {
                 ShipCenter.Angle -= 2;
             }
-            SetHitboxTo(ShipCenter);
-            CenterOrigin();
+            //SetHitboxTo(ShipCenter);
+            //CenterOrigin();
             FP.Camera.X = X;
             FP.Camera.Y = Y;
         }
