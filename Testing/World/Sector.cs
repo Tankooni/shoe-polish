@@ -12,7 +12,7 @@ namespace Punk
     class Sector : Entity
     {
         protected Image background;
-        protected uint SectorSize = 1000;
+        public static uint SectorSize = 100;
 
         public Sector()
         {
@@ -23,8 +23,8 @@ namespace Punk
         public override void Added()
         {
             base.Added();
-            for (int x = 0; x < 40; x++ )
-                World.Add(new Asteroid(FP.Rand(SectorSize) + X, FP.Rand(SectorSize) + Y));
+            for (int x = 0; x < 1; x++ )
+                World.Add(new Asteroid(FP.Rand(SectorSize) + X, FP.Rand(SectorSize) + Y, SpaceWorld.WorldLength, SpaceWorld.WorldHeight));
         }
     }
 }
