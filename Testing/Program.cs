@@ -3,6 +3,7 @@ using Punk.Graphics;
 using Punk.Tweens.Misc;
 using Punk.Utils;
 using SFML.Window;
+using Testing;
 
 namespace Punk
 {
@@ -12,65 +13,118 @@ namespace Punk
 		{
 			var game = new Game();
 		}
+
+        private class myShip : Entity
+        {
+            //private Image Ship;
+
+            //private Image LeftWing;
+            //private Image RightWing;
+            //private Image[] Turrets;
+            //private Image[] Thrusters;
+
+            //public myShip()
+            //{
+            //    Ship = Image.CreateRect(50, 100, FP.Color(0x00000));
+            //    LeftWing = Image.CreateRect(50, 20, FP.Color(0x00ff00));
+            //    RightWing = Image.CreateRect(50, 20, FP.Color(0x00ff00));
+            //    AddGraphic(Ship);
+            //    AddGraphic(LeftWing);
+            //    AddGraphic(RightWing);
+            //    Ship.CenterOO();
+
+            //    LeftWing.OriginX = (LeftWing.Width) + (Ship.Width / 2);
+            //    LeftWing.OriginY = LeftWing.Height / 2;
+
+            //    RightWing.OriginX = (RightWing.X) - (Ship.Width / 2);
+            //    RightWing.OriginY = RightWing.Height / 2;
+                
+            //    X = FP.HalfWidth;
+            //    Y = FP.HalfHeight;
+            //    //LeftWing.X = Ship.X - 25;
+            //    //LeftWing.Y = Ship.Y + 25;
+            //    //RightWing.X = Ship.X + 25;
+            //    //RightWing.Y = Ship.Y + 50;
+            //    FP.Log(Ship.X, Ship.Y);
+                
+            //}
+
+            //public override void Update()
+            //{
+            //    base.Update();
+
+            //    if (Mouse.IsButtonPressed(Mouse.Button.Left))
+            //    {
+                    
+            //    }
+
+            //    if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+            //    {
+            //        Y += 2;
+            //    }
+
+            //    if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+            //    {
+            //        Ship.Angle += 2;
+            //    }
+
+               
+            //    LeftWing.Angle = RightWing.Angle = Ship.Angle;
+            //}
+        }
 		
 		private class JoystickGuy : Entity
 		{
-			private Controller controller;
-			private uint id;
-			private static float speed = 3;
+            //private Controller controller;
+            //private uint id;
+            //private static float speed = 3;
 			
-			private Image image;
+            //private Image image;
 			
 			public JoystickGuy(uint joyID)
 			{
-				Graphic = image = Image.CreateRect(100, 100, FP.Color(FP.Rand(uint.MaxValue)));
-				X = (int) FP.Rand(FP.Width);
-				Y = (int) FP.Rand(FP.Height);
+                //Graphic = image = Image.CreateRect(100, 100, FP.Color(FP.Rand(uint.MaxValue)));
+                //X = (int) FP.Rand(FP.Width);
+                //Y = (int) FP.Rand(FP.Height);
 				
-				image.CenterOO();
-                SetHitboxTo(image);
+                //image.CenterOO();
+                //SetHitboxTo(image);
 
-                CenterOrigin();
+                //CenterOrigin();
 				
-				controller = new Controller(joyID);
-				controller.Disconnected += delegate { World.Remove(this); };
+                //controller = new Controller(joyID);
+                //controller.Disconnected += delegate { World.Remove(this); };
 
-                Type = "joyguy";
+                //Type = "joyguy";
 
-                AddResponse("A", OnEnemyA);
+                //AddResponse("A", OnEnemyA);
 
-				id = joyID;
+                //id = joyID;
 			}
 
             private void OnEnemyA(params object[] ars)
             {
-                ClearTweens();
-                //image.Scale = 1.3f;
-                var tween = new VarTween(null, ONESHOT);
-                tween.Tween(this, "Y", Y+100, 5, Ease.ElasticOut);
-                AddTween(tween, true);
+                //ClearTweens();
+                ////image.Scale = 1.3f;
+                //var tween = new VarTween(null, ONESHOT);
+                //tween.Tween(this, "Y", Y+100, 5, Ease.ElasticOut);
+                //AddTween(tween, true);
             }
 			
 			public override void Update()
 			{
 				base.Update();
 				
-				if (controller.Pressed(Controller.Button.A))
-				{
-                    World.BroadcastMessage("A");
-				}
-                X = Input.MouseX;
-                Y = Input.MouseY;
+                //if (controller.Pressed(Controller.Button.A))
+                //{
+                //    World.BroadcastMessage("A");
+                //}
+                //X = Input.MouseX;
+                //Y = Input.MouseY;
                 //MoveBy(speed * controller.DPad.X, speed * controller.DPad.Y, Type);
 			}
 
-            public override bool MoveCollideX(Entity e)
-            {
-                e.X += 100;
-
-                FP.Log("OW");
-                return base.MoveCollideX(e);
-            }
+           
 		}
 		
 		private class MyWorld : World
@@ -83,16 +137,31 @@ namespace Punk
 			{
 				base.Begin();
 				
-				FP.Engine.ClearColor = FP.Color(0xff00ff);
+				FP.Engine.ClearColor = FP.Color(0x000000);
                 //Add(new JoystickGuy(0));
+                
+                var e = Add(new Ship());
+                Add(new Part(e, 1, 0, 0));
+                Add(new Part(e, 1, 1, 1));
+                Add(new Part(e, 1, 1, 0));
+                Add(new Part(e, 1, 1, -1));
+                Add(new Part(e, 1, 0, -1));
+                Add(new Part(e, 1, -1, -1));
+                Add(new Part(e, 1, -1, 0));
+                Add(new Part(e, 1, -1, 1));
+                Add(new Part(e, 1, 0, 1));
+
+                Add(new Part(e, 0, -1, -2));
+                Add(new Part(e, 0, 0, -2));
+                Add(new Part(e, 0, 1, -2));
 				//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
-                Input.Pressed(Mouse.Button.Left); 
+                
 			}
 			
 		}
 		
 		public Game() : 
-		base(640, 480, 60)
+		base(1280, 960, 60)
 		{
 		}
 		
@@ -102,6 +171,7 @@ namespace Punk
 			
 			FP.World = new MyWorld();
 			FP.Screen.GainedFocus += delegate { Library.Reload(); };
+            
 			FP.Console.Enable();
 		}
 	}

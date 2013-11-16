@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Punk.Masks;
 using SFML.Graphics;
 using SFML.Window;
+using Punk.Utils;
 
 namespace Punk.Masks
 {
@@ -161,6 +162,13 @@ namespace Punk.Masks
 				Parent.Height = _height;
 			}
 		}
+
+        public override void RenderDebug(VertexArray vertexArray)
+        {
+            base.RenderDebug(vertexArray);
+
+            Draw.Rect(Parent.X + X, Parent.Y + Y, Width, Height, FP.Color(0xff0000));
+        }
 		
 		internal int _width;
 		internal int _height;

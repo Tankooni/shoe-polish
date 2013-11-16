@@ -315,17 +315,23 @@ namespace Punk
 		/// <param name="anchorX">X of the anchor</param>
 		/// <param name="anchorY">Y of the anchor</param>
 		/// <param name="distance">The max distance that the object can be from the anchor</param>
-		public static void AnchorTo(ref float objX, ref float objY, float anchorX, float anchorY, float distance = 0)
+		public static void AnchorTo(ref float objX, ref float objY, float anchorX, float anchorY, float distance = 0, float? minDistance = null)
 		{
-			var point = new Vector2f(objX - anchorX, objY - anchorY);
-			
-			if (point.Length() > distance)
-			{
-				point = point.Normalized(distance);
-			}
-			
-			objX = anchorX + point.X;
-			objY = anchorY + point.Y;
+            var point = new Vector2f(objX - anchorX, objY - anchorY);
+
+            if (point.Length() > distance)
+            {
+                point = point.Normalized(distance);
+            }
+
+            if (minDistance.HasValue && point.Length() < minDistance.Value)
+            {
+                point = point.Normalized(minDistance.Value);
+            }
+
+            objX = anchorX + point.X;
+            objY = anchorY + point.Y;
+
 		}
 		
 		/// <summary>
@@ -374,8 +380,8 @@ namespace Punk
 		public static void AngleXY(ref float X, ref float Y, float angle, float length, float xOffset = 0, float yOffset = 0)
 		{
 			angle *= RAD;
-			X = (float) Math.Cos(angle) * length + xOffset;
-			Y = (float) Math.Sin(angle) * length + yOffset;
+			X = (float) (Math.Cos(angle) * length + xOffset);
+			Y = (float) (Math.Sin(angle) * length + yOffset);
 		}
 		
 		/// <summary>
