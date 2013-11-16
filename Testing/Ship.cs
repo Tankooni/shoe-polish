@@ -17,7 +17,7 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
-        public Vector2f Velocity;
+        protected Vector2f Velocity;
 
         public float mass, forwardThrust, leftThrust, rightThrust, backThrust;
 
@@ -152,12 +152,12 @@ namespace Testing
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                ShipCenter.Angle += rightThrust;
+                ShipCenter.Angle -= rightThrust;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                ShipCenter.Angle -= leftThrust;
+                ShipCenter.Angle += leftThrust;
             }
             //SetHitboxTo(ShipCenter);
             //CenterOrigin();
