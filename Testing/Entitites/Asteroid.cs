@@ -22,8 +22,8 @@ namespace Punk
             vel.Y = FP.Rand(100) * FP.Choose(1, -1);
             rot = FP.Random * (float)Math.PI * FP.Choose(1,-1);
             Height = Width = (int)FP.Rand(20) + 20;
-
-            Graphic = image = Image.CreateRect((uint)Width, (uint)Height, FP.Color(FP.Rand(0xFFFFFF)));
+            var AsteroidImage = new Image(Library.GetTexture("Asteroid.png"));
+            Graphic = image = AsteroidImage;
             CenterOrigin();
             image.CenterOO();
         }
