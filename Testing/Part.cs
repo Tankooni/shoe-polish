@@ -227,31 +227,40 @@ namespace Testing
         public override void Update()
         {
             base.Update();
-            if (myShip.shipParts.Count < 1)
-            {
-                var Title = new Text("Game Over! Press R to Restart The Game.", 100, FP.HalfHeight - 200, 0, 0);
-                Title.Size = 100;
-                AddGraphic(Title);
-            }
+            
             if (health <= 0)
             {
                 if (myShip != null)
                 {
-                    List<PartBase> temp = myShip.shipParts;
-                    World.Remove(myShip);
-                    for (int i = 0; i < temp.Count; i++)
+                    if (myShip as Ship == null)
                     {
-                        if (temp[i].MyType != 0)
+                        List<PartBase> temp = myShip.shipParts;
+                        World.Remove(myShip);
+                        for (int i = 0; i < temp.Count; i++)
                         {
-                            Part replacementPart = new Part(temp[i].MyType);
-                            replacementPart.X = temp[i].X;
-                            replacementPart.Y = temp[i].Y;
-                            World.Add(replacementPart);
-                        }
+                            if (temp[i].MyType != 0)
+                            {
+                                Part replacementPart = new Part(temp[i].MyType);
+                                replacementPart.X = temp[i].X;
+                                replacementPart.Y = temp[i].Y;
+                                World.Add(replacementPart);
+                            }
 
-                        World.Remove(temp[i]);
+                            World.Remove(temp[i]);
+                        }
+                        World.Remove(myShip);
                     }
-                    World.Remove(myShip);
+                    else
+                    {
+                        World.Add(new EmptyPart(myShip, curCol, curRow, curCol, curRow));
+                        World.Remove(this);
+                        if (myShip.shipParts.Count <= 0)
+                        {
+                            var Title = new Text("Game Over! Press R to Restart The Game.", 100, FP.HalfHeight - 200, 0, 0);
+                            Title.Size = 100;
+                            AddGraphic(Title);
+                        }
+                    }
                 }
                 else
                 {
@@ -379,11 +388,11 @@ namespace Testing
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
             Y = y;
-            Velocity = VelocityIn;
             BulletShot.CenterOO();
             SetHitboxTo(BulletShot);
             CenterOrigin();
             myShip = ShipIn as Ship;
+            Velocity = VelocityIn + myShip.Velocity;
         }
 
         public override bool MoveCollideX(Entity e)

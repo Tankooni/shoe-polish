@@ -17,7 +17,7 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
-        protected Vector2f Velocity;
+        public Vector2f Velocity;
         uint rightBound = 0;
         uint bottomBound = 0;
         public Sfx ThrusterSound = new Sfx(Library.GetBuffer("Thruster2.Wav"));
