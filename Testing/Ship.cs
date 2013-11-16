@@ -18,6 +18,8 @@ namespace Testing
         public List<PartBase> shipParts;
 
         public Vector2f Velocity;
+        uint rightBound = 0;
+        uint bottomBound = 0;
 
         public float mass, forwardThrust, leftThrust, rightThrust, backThrust;
 
@@ -26,6 +28,8 @@ namespace Testing
             shipParts = new List<PartBase>();
             Velocity = new Vector2f(0, 0);
             mass = forwardThrust = leftThrust = rightThrust = 0;
+            rightBound = SpaceWorld.WorldLength - Sector.SectorSize;
+            bottomBound = SpaceWorld.WorldHeight - Sector.SectorSize;
         }
 
         public override void Added()
@@ -40,10 +44,23 @@ namespace Testing
             X = FP.HalfWidth;
             Y = FP.HalfHeight;
         }
+
+        public override void Update()
+        {
+            base.Update();
+            if (X > rightBound)
+                X = 0;
+            else if (X < 0)
+                X = rightBound;
+            if (Y > bottomBound)
+                Y = 0;
+            else if (Y < 0)
+                Y = bottomBound;
+        }
     }
     public class EmptyShip : BaseShip
     {
-        private Vector2f Velocity;
+        //private Vector2f Velocity;
         private int created;
         public EmptyShip()
         {
@@ -104,10 +121,10 @@ namespace Testing
         {
             base.Update();
 
-            forwardThrust = 0;
+            forwardThrust = 2;
             leftThrust = 0.12f;
             rightThrust = 0.12f;
-            backThrust = 0;
+            backThrust = 1;
 
             for (int i = 0; i < shipParts.Count; i++)
             {
