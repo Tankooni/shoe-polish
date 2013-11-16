@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Punk
 {
-    class SpaceObject : Entity
+    public class SpaceObject : Entity
     {
         uint rightBound = 0;
         uint bottomBound = 0;

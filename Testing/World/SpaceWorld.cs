@@ -15,7 +15,8 @@ namespace Punk
 	{
 		protected Sector[,] Sectors = new Sector[10, 10];
 		public static uint WorldLength = Sector.SectorSize * 10;
-        public static uint WorldHeight = Sector.SectorSize * 10;
+		public static uint WorldHeight = Sector.SectorSize * 10;
+        public Ship PlayerShip;
 		public SpaceWorld()
 		{
 		}
@@ -34,15 +35,15 @@ namespace Punk
 					Add(Sectors[x, y]);
 				}
 			}
-            var e = Add(new Ship());
-            Add(new Part(e, 1, 0, 0));
-            for (int i = 0; i < 5; i++)
-            {
-                Add(new Part(1));
-                Add(new Part(2));
-            }
-            Add(new Part(e, 3, 0, 0));
-            FP.Log(WorldHeight);
+			var e = Add(PlayerShip = new Ship());
+			Add(new Part(e, 1, 0, 0));
+			for (int i = 0; i < 5; i++)
+			{
+				Add(new Part(1));
+				Add(new Part(2));
+			}
+			Add(new Part(e, 3, 0, 0));
+			FP.Log(WorldHeight);
 			//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
 			//Input.Pressed(Mouse.Button.Left);
 		}
@@ -53,7 +54,7 @@ namespace Punk
 			base.Update();
 			if (Input.Down(Keyboard.Key.Up))
 			{
-				Camera.Y -= 10;
+                PlayerShip.MoveTo(100, 100);
 			}
 			else if (Input.Down(Keyboard.Key.Down))
 			{

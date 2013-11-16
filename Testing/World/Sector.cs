@@ -12,7 +12,7 @@ namespace Punk
     class Sector : Entity
     {
         protected Image background;
-        public static uint SectorSize = 1000;
+        public static uint SectorSize = 100;
 
         public Sector()
         {
