@@ -26,7 +26,7 @@ namespace Punk
         public override void Added()
         {
             base.Added();
-            for (int x = 0; x < 1; x++ )
+            for (int x = 0; x < 5; x++ )
                 World.Add(new Asteroid(FP.Rand(SectorSize) + X, FP.Rand(SectorSize) + Y, SpaceWorld.WorldLength, SpaceWorld.WorldHeight));
         }
         public override void Update()

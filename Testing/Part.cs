@@ -17,6 +17,7 @@ namespace Testing
         public int curCol;
         public BaseShip myShip;
         public float health = 100;
+        public float totalHealth = 100;
         public int MyType;
         public float rotationOffSet;
 
@@ -57,7 +58,7 @@ namespace Testing
         private bool Flying;
         private bool Dragging;
         private bool Attached;
-        private Sfx TurretSfx = new Sfx(Library.GetBuffer("TurretFire.Wav"));
+        private Sfx TurretSfx = new Sfx(Library.GetBuffer("gun.Wav"));
         private Sfx EquipSfx = new Sfx(Library.GetBuffer("Docking.Wav"));
 
         public Part(Entity e, int PartItem, int Col, int Row) : base(e, PartItem, Col, Row)
@@ -89,7 +90,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-                health = 200;
+                totalHealth = health = 150;
             }
             else if (PartItem == 2)
             {
@@ -98,7 +99,7 @@ namespace Testing
                 aPart = Thruster;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-                health = 100;
+                totalHealth = health = 100;
             }
             else if (PartItem == 3)
             {
@@ -106,7 +107,7 @@ namespace Testing
                 Image Turret = new Image(Library.GetTexture("Turret.png"));
                 aPart = Turret;
 
-                health = 50;
+                totalHealth = health = 50;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
 
@@ -131,7 +132,7 @@ namespace Testing
                 aPart = Hull;
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-                health = 200;
+                totalHealth = health = 150;
             }
             if (PartItem == 2)
             {
@@ -140,7 +141,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-                health = 100;
+                totalHealth = health = 100;
             }
             else if (PartItem == 3)
             {
@@ -150,7 +151,7 @@ namespace Testing
 
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
-                health = 50;
+                totalHealth = health = 50;
             }
         }
         public override void Added()
@@ -258,19 +259,23 @@ namespace Testing
                     if ((myShip.ShipCenter.Angle + 45 > FP.Angle(X, Y, World.MouseX, World.MouseY)) && (myShip.ShipCenter.Angle - 45 < FP.Angle(X, Y, World.MouseX, World.MouseY)))
                     {
                         aPart.Angle = FP.Angle(X, Y, World.MouseX, World.MouseY);
-                        if (Mouse.IsButtonPressed(Mouse.Button.Right))
+                        if(Mouse.IsButtonPressed(Mouse.Button.Right))
                         {
-                            //TurretSfx.Volume = 2f;
-                            TurretSfx.Pitch = TurretSfx.Pitch + 0.1f;
+                            TurretSfx.Volume = FP.Random * 20 + 20;
+                            TurretSfx.Pitch = FP.Random*.3f +.2f;
                             TurretSfx.Play();
-                            
+
                             World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5), myShip));
+                        }
+                        else
+                        {
+                            //TurretSfx.Pitch = .01f; //+ 0.5f;
                         }
                     
                     }
                     else
                     {
-                        TurretSfx.Pitch = .01f; //+ 0.5f;
+                        //TurretSfx.Pitch = .01f; //+ 0.5f;
                         aPart.Angle = myShip.ShipCenter.Angle;
                     }
 
@@ -326,6 +331,8 @@ namespace Testing
                     Y += FP.Rand(2);
                 }
             }
+            //aPart.Color = FP.Color(0x000000);
+            aPart.Color = new SFML.Graphics.Color((byte)(byte)(FP.Clamp<int>((int)((health / totalHealth) * 255), 0, 255)), (byte)(byte)(FP.Clamp<int>((int)((health / totalHealth) * 255), 0, 255)), (byte)(byte)(FP.Clamp<int>((int)((health / totalHealth) * 255), 0, 255)));
 
         }
     }

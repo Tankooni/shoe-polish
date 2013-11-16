@@ -17,6 +17,7 @@ namespace Punk
 		public static uint WorldLength = Sector.SectorSize * 10;
 		public static uint WorldHeight = Sector.SectorSize * 10;
         public Ship PlayerShip;
+        public Sfx musics;
 		public SpaceWorld()
 		{
 		}
@@ -24,6 +25,11 @@ namespace Punk
 		public override void Begin()
 		{
 			base.Begin();
+            musics = new Sfx(Library.GetBuffer("BlackVortex.ogg"));
+            musics.Pitch = .5f;
+            musics.Loop();
+            
+
 			FP.Engine.ClearColor = FP.Color(0x000000);
 			for (int x = 0; x < Sectors.GetLength(0) - 1; x++)
 			{

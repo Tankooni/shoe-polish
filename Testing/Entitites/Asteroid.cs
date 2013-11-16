@@ -17,6 +17,7 @@ namespace Punk
         protected int size = 20;
         protected int sizeMod = 20;
         protected int posSizeMod = 20;
+        private Sfx AsteroidHit = new Sfx(Library.GetBuffer("Collision.Wav"));
 
         public Asteroid(float x, float y, uint right, uint bottom)
             :base(x, y, right, bottom)
@@ -42,10 +43,14 @@ namespace Punk
         }
         public bool Collided(Entity e)
         {
+            AsteroidHit.Pitch = FP.Random*.5f+ .5f;
+            AsteroidHit.Play();
+
             health -= (e as Testing.Part).health;
             if(health <= 0)
             {
                 (e as Testing.Part).DoDamage(10 + sizeMod / posSizeMod);
+                FP.Log((e as Testing.Part).health);
                 return false;
             }
             
