@@ -20,6 +20,7 @@ namespace Testing
         public float totalHealth = 100;
         public int MyType;
         public float rotationOffSet;
+        protected Sfx AsteroidHit = new Sfx(Library.GetBuffer("Collision.Wav"));
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {
