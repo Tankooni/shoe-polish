@@ -7,6 +7,7 @@ using Punk.Graphics;
 using Punk.Tweens.Misc;
 using Punk.Utils;
 using SFML.Window;
+using Testing;
 
 namespace Punk
 {
@@ -33,6 +34,13 @@ namespace Punk
 					Add(Sectors[x, y]);
 				}
 			}
+            var e = Add(new Ship());
+            Add(new Part(e, 1, 0, 0));
+            for (int i = 0; i < 5; i++)
+            {
+                Add(new Part(1));
+                Add(new Part(2));
+            }
             FP.Log(WorldHeight);
 			//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
 			//Input.Pressed(Mouse.Button.Left);
