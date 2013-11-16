@@ -17,11 +17,15 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
-        public int mass, forwardThrust, leftThrust, rightThrust;
+        private Vector2f Velocity;
+
+        public float mass, forwardThrust, leftThrust, rightThrust, backThrust;
 
         public BaseShip()
         {
             shipParts = new List<PartBase>();
+            Velocity = new Vector2f(0, 0);
+            mass = forwardThrust = leftThrust = rightThrust = 0;
         }
 
         public override void Added()
@@ -30,7 +34,7 @@ namespace Testing
 
             Type = "BaseShip";
             ShipCenter = Image.CreateRect(64, 64, FP.Color(0xffffff));
-
+            
             ShipCenter.CenterOO();
 
             X = FP.HalfWidth;
@@ -47,32 +51,19 @@ namespace Testing
             Velocity = new Vector2f(FP.Rand(2), FP.Rand(2));
             created = 0;
         }
-
         public override void Added()
         {
             base.Added();
             World.Add(new Part(this, 1, 0, 0));
             Type = "EmptyShip";
             ShipCenter = Image.CreateRect(64, 64, FP.Color(0xffffff));
-
             ShipCenter.CenterOO();
-
-            //for (int i = 0; i < FP.Rand(8); i++)
-            //{
-            //    for (int j = 1; j < FP.Rand(8); j++)
-            //    {
-            //        World.Add(new Part(this, Convert.ToInt32(FP.Rand(3)) + 1, i, j));
-            //    }
-            //}
-
             X = FP.Rand(SpaceWorld.WorldLength);
             Y = FP.Rand(SpaceWorld.WorldHeight);
         }
-
         public override void Update()
         {
             base.Update();
-
             if (created == 2)
             {
                 for (int i = 0; i < shipParts.Count; i++)
@@ -88,7 +79,6 @@ namespace Testing
             {
                 created++;
             }
-
             //X += Velocity.X;
             //Y += Velocity.Y;
             FP.Log(X, Y);
@@ -100,16 +90,12 @@ namespace Testing
         {
             shipParts = new List<PartBase>();
         }
-
         public override void Added()
         {
             base.Added();
-
             Type = "Ship";
             ShipCenter = Image.CreateRect(64, 64, FP.Color(0xffffff));
-
             ShipCenter.CenterOO();
-
             X = FP.HalfWidth;
             Y = FP.HalfHeight;
         }
@@ -118,26 +104,60 @@ namespace Testing
         {
             base.Update();
 
+            forwardThrust = 0;
+            leftThrust = 0.12f;
+            rightThrust = 0.12f;
+            backThrust = 0;
+
+            for (int i = 0; i < shipParts.Count; i++)
+            {
+                if (shipParts[i].MyType == 2)
+                {
+                    if (shipParts[i].rotationOffSet == 0)
+                    {
+                        forwardThrust += 10;
+                    }
+                    if (shipParts[i].rotationOffSet == -180)
+                    {
+                        backThrust += 5;
+                    }
+                    if (shipParts[i].rotationOffSet == -90)
+                    {
+                        leftThrust += 2;
+                    }
+                    if (shipParts[i].rotationOffSet == -270)
+                    {
+                        rightThrust += 2;
+                    }
+                }
+            }
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
-                X += (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
-                Y += (float)Math.Sin(FP.RAD * ShipCenter.Angle) * 5;
+                Velocity.X += (float)Math.Cos(FP.RAD * ShipCenter.Angle) * forwardThrust * FP.Elapsed;
+                Velocity.Y += (float)Math.Sin(FP.RAD * ShipCenter.Angle) * forwardThrust * FP.Elapsed;
             }
-          
+            else
+            {
+                ClearTweens();
+            }
+            X += Velocity.X;
+            Y += Velocity.Y;
+            Velocity.X *= 0.97f;
+            Velocity.Y *= 0.97f;
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
-                X -= (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
-                Y -= (float)Math.Sin(FP.RAD * ShipCenter.Angle) * 5;
+                Velocity.X -= (float)Math.Cos(FP.RAD * ShipCenter.Angle) * backThrust * FP.Elapsed;
+                Velocity.Y -= (float)Math.Sin(FP.RAD * ShipCenter.Angle) * backThrust * FP.Elapsed;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                ShipCenter.Angle += 2;
+                ShipCenter.Angle -= rightThrust;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                ShipCenter.Angle -= 2;
+                ShipCenter.Angle += leftThrust;
             }
             //SetHitboxTo(ShipCenter);
             //CenterOrigin();
@@ -146,5 +166,4 @@ namespace Testing
             FP.Camera.Angle = ShipCenter.Angle-90;
         }
     }
-
 }
