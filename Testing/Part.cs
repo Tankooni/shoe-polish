@@ -43,6 +43,8 @@ namespace Testing
         private bool Flying;
         private bool Dragging;
         private bool Attached;
+        private Sfx TurretSfx = new Sfx(Library.GetBuffer("TurretFire.Wav"));
+        private Sfx EquipSfx = new Sfx(Library.GetBuffer("Docking.Wav"));
 
         private int MyType;
 
@@ -67,6 +69,7 @@ namespace Testing
             myShip.shipParts.Add(this);
             if (PartItem == 1)
             {
+                EquipSfx.Play();
                 Image Hull = new Image(Library.GetTexture("MetalPlating.png"));
                 aPart = Hull;
                 AddGraphic(aPart);
@@ -74,6 +77,7 @@ namespace Testing
             }
             else if (PartItem == 2)
             {
+                EquipSfx.Play();
                 Image Thruster = new Image(Library.GetTexture("Thruster.png"));
                 aPart = Thruster;
                 AddGraphic(aPart);
@@ -81,6 +85,7 @@ namespace Testing
             }
             else if (PartItem == 3)
             {
+                EquipSfx.Play();
                 Image Turret = new Image(Library.GetTexture("Turret.png"));
                 aPart = Turret;
 
@@ -217,21 +222,33 @@ namespace Testing
                 {
                 
                     FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
+
+                    if (myShip.ShipCenter.Angle + 2 > 360)
+                    {
+                        myShip.ShipCenter.Angle = (myShip.ShipCenter.Angle + 2) - 360;
+                    }
+                    if (myShip.ShipCenter.Angle - 2 <= 0)
+                    {
+                        myShip.ShipCenter.Angle = (myShip.ShipCenter.Angle - 2) + 360;
+                    }
                 
                 
                     if ((myShip.ShipCenter.Angle + 45 > FP.Angle(X, Y, World.MouseX, World.MouseY)) && (myShip.ShipCenter.Angle - 45 < FP.Angle(X, Y, World.MouseX, World.MouseY)))
                     {
-                        //LastRot = FP.Angle(X, Y, World.MouseX, World.MouseY);
                         aPart.Angle = FP.Angle(X, Y, World.MouseX, World.MouseY);
                         if (Mouse.IsButtonPressed(Mouse.Button.Right))
                         {
-                        
+                            //TurretSfx.Volume = 2f;
+                            TurretSfx.Pitch = TurretSfx.Pitch + 0.1f;
+                            TurretSfx.Play();
+                            
                             World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5)));
                         }
                     
                     }
                     else
                     {
+                        TurretSfx.Pitch = .01f; //+ 0.5f;
                         aPart.Angle = myShip.ShipCenter.Angle;
                     }
 
