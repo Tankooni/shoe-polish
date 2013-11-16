@@ -228,7 +228,26 @@ namespace Testing
             base.Update();
 
             if (health <= 0)
-                World.Remove(this);
+            {
+                if (myShip != null)
+                {
+                    List<PartBase> temp = myShip.shipParts;
+                    World.Remove(myShip);
+                    for (int i = 0; i < temp.Count; i++)
+                    {
+                        if (temp[i].MyType != 0)
+                        {
+                            Part replacementPart = new Part(temp[i].MyType);
+                            replacementPart.X = temp[i].X;
+                            replacementPart.Y = temp[i].Y;
+                            World.Add(replacementPart);
+                        }
+
+                        World.Remove(temp[i]);
+                    }
+                    World.Remove(myShip);
+                }
+            }
 
             if (Attached)
             {
@@ -350,12 +369,11 @@ namespace Testing
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
             Y = y;
-            
+            Velocity = VelocityIn;
             BulletShot.CenterOO();
             SetHitboxTo(BulletShot);
             CenterOrigin();
             myShip = ShipIn as Ship;
-            Velocity = VelocityIn + myShip.Velocity;
         }
 
         public override bool MoveCollideX(Entity e)
