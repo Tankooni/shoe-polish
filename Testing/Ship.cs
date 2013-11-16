@@ -20,7 +20,7 @@ namespace Testing
         protected Vector2f Velocity;
         uint rightBound = 0;
         uint bottomBound = 0;
-
+        public Sfx ThrusterSound = new Sfx(Library.GetBuffer("Thruster2.Wav"));
         public float mass, forwardThrust, leftThrust, rightThrust, backThrust;
 
         public BaseShip()
@@ -157,6 +157,10 @@ namespace Testing
             {
                 ClearTweens();
             }
+            if (ThrusterSound.Status != SFML.Audio.SoundStatus.Playing && (Input.Pressed(Keyboard.Key.W) || Input.Pressed(Keyboard.Key.A) || Input.Pressed(Keyboard.Key.S) || Input.Pressed(Keyboard.Key.D)))
+                ThrusterSound.Loop();
+            if (!Input.Down(Keyboard.Key.W) && !Input.Down(Keyboard.Key.A) && !Input.Down(Keyboard.Key.S) && !Input.Down(Keyboard.Key.D))
+                ThrusterSound.Stop();
             X += Velocity.X;
             Y += Velocity.Y;
             Velocity.X *= 0.97f;
