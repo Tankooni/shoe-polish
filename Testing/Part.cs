@@ -19,7 +19,6 @@ namespace Testing
         public float health = 100;
         public int MyType;
         public float rotationOffSet;
-        public int health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {

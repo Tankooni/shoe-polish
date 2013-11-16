@@ -17,7 +17,7 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
-        private Vector2f Velocity;
+        protected Vector2f Velocity;
 
         public float mass, forwardThrust, leftThrust, rightThrust, backThrust;
 
