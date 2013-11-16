@@ -15,6 +15,7 @@ namespace Testing
     {
         private Ship myShip;
         private Image aPart;
+        private int PartNum;
         private int curRow;
         private int curCol;
         private float ChangeAng;
@@ -22,11 +23,14 @@ namespace Testing
         private float angle;
         private bool Flying;
         private bool Dragging;
+        private float LastRot;
         public Part(Entity e, int PartItem, int Col, int Row)
         {
             Flying = true;
             Dragging = false;
             Type = "Part";
+
+
             //ChangeAng = InAng;
             //ChangeX = InX;
             curCol = Col;
@@ -36,6 +40,7 @@ namespace Testing
             float C = (float)Math.Sqrt(A + B);
             Distance = C;
             angle = (float)Math.Atan2(Col, Row) * (180 / (float)Math.PI);
+            PartNum = PartItem;
             myShip = e as Ship;
             if (PartItem == 0)
             {
@@ -54,6 +59,16 @@ namespace Testing
                 AddGraphic(aPart);
                 SetHitboxTo(aPart);
                 
+            }
+            else if (PartItem == 2)
+            {
+                Image Turret = new Image(Library.GetTexture("Turret.png"));
+                aPart = Turret;
+                
+
+                AddGraphic(aPart);
+                SetHitboxTo(aPart);
+
             }
 
             
@@ -95,6 +110,7 @@ namespace Testing
         public override void Update()
         {
             base.Update();
+            
             SetHitboxTo(aPart);
             CenterOrigin();
             aPart.CenterOO();
@@ -112,7 +128,35 @@ namespace Testing
 
             FP.AnchorTo(ref X, ref Y, myShip.X, myShip.Y, Distance, Distance);
             FP.RotateAround(ref X, ref Y, myShip.X, myShip.Y, myShip.ShipCenter.Angle + angle, false);
-            aPart.Angle = myShip.ShipCenter.Angle;
+
+            if (PartNum == 2)
+            {
+                
+                FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
+                
+                
+                if ((myShip.ShipCenter.Angle + 45 > FP.Angle(X, Y, World.MouseX, World.MouseY)) && (myShip.ShipCenter.Angle - 45 < FP.Angle(X, Y, World.MouseX, World.MouseY)))
+                {
+                    //LastRot = FP.Angle(X, Y, World.MouseX, World.MouseY);
+                    aPart.Angle = FP.Angle(X, Y, World.MouseX, World.MouseY);
+                    if (Mouse.IsButtonPressed(Mouse.Button.Right))
+                    {
+                        
+                        World.Add(new Bullet(X, Y, new Vector2f((float)Math.Cos(aPart.Angle * FP.RAD) * 5, (float)Math.Sin(aPart.Angle * FP.RAD) * 5)));
+                    }
+                    
+                }
+                else
+                {
+                    aPart.Angle = myShip.ShipCenter.Angle;
+                }
+
+            }
+            else
+            {
+                aPart.Angle = myShip.ShipCenter.Angle;
+                
+            }
 
             if (Dragging)
             {
@@ -129,4 +173,28 @@ namespace Testing
             
         }
     }
+
+    public class Bullet : Entity
+    {
+        private Vector2f Velocity;
+        private Image BulletShot;
+        public Bullet(float x, float y, Vector2f VelocityIn)
+        {
+            Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
+            X = x;
+            Y = y;
+            Velocity = VelocityIn;
+            BulletShot.CenterOO();
+            SetHitboxTo(BulletShot);
+            CenterOrigin();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            X += Velocity.X * 2;
+            Y += Velocity.Y * 2;
+        }
+    }
+
 }

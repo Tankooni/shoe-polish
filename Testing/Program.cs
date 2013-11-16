@@ -154,6 +154,8 @@ namespace Punk
                 Add(new Part(e, 0, -1, -2));
                 Add(new Part(e, 0, 0, -2));
                 Add(new Part(e, 0, 1, -2));
+
+                Add(new Part(e, 2, 0, 0));
 				//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
                 
 			}

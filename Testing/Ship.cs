@@ -154,6 +154,14 @@ namespace Testing
         {
             base.Update();
 
+            if (ShipCenter.Angle > 360)
+            {
+                ShipCenter.Angle =  ShipCenter.Angle - 360;
+            }
+            if (ShipCenter.Angle < 0)
+            {
+                ShipCenter.Angle = 360 + ShipCenter.Angle;
+            }
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
                 X += (float)Math.Cos(FP.RAD * ShipCenter.Angle) * 5;
