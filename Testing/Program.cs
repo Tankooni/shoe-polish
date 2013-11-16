@@ -140,7 +140,6 @@ namespace Punk
                 FP.Engine.ClearColor = FP.Color(0x000000);
                 //Add(new JoystickGuy(0));
 
-                
                 //Add(new Part(e, 1, -1, -1));
                 //Add(new Part(e, 1, -1, 0));
                 //Add(new Part(e, 1, -1, 1));
