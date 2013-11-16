@@ -17,6 +17,8 @@ namespace Testing
 
         public List<PartBase> shipParts;
 
+        public int mass, forwardThrust, leftThrust, rightThrust;
+
         public Ship()
         {
             shipParts = new List<PartBase>();
@@ -177,6 +179,7 @@ namespace Testing
             //CenterOrigin();
             FP.Camera.X = X;
             FP.Camera.Y = Y;
+            FP.Camera.Angle = ShipCenter.Angle-90;
         }
     }
 
