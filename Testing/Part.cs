@@ -15,7 +15,7 @@ namespace Testing
     {
         public int curRow;
         public int curCol;
-        public Ship myShip;
+        public BaseShip myShip;
         public float health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
@@ -23,7 +23,7 @@ namespace Testing
             Type = "PartBase";
             curCol = Col;
             curRow = Row;
-            myShip = e as Ship;
+            myShip = e as BaseShip;
         }
         public PartBase(int PartItem)
         {
@@ -74,7 +74,8 @@ namespace Testing
             Distance = C;
             angle = (float)Math.Atan2(Col, Row) * (180 / (float)Math.PI);
             PartNum = PartItem;
-            myShip = e as Ship;
+            myShip = e as BaseShip;
+            
             myShip.shipParts.Add(this);
             if (PartItem == 1)
             {
@@ -320,7 +321,7 @@ namespace Testing
     {
         private Vector2f Velocity;
         private Image BulletShot;
-        Ship myShip;
+        BaseShip myShip;
         float life = 1;
         public Bullet(float x, float y, Vector2f VelocityIn, Entity ShipIn)
             : base(x, y, Punk.SpaceWorld.WorldLength, Punk.SpaceWorld.WorldHeight)

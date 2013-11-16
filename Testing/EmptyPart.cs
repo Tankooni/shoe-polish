@@ -28,13 +28,14 @@ namespace Testing
             float C = (float)Math.Sqrt(A + B);
             Distance = C;
             angle = (float)Math.Atan2(Col, Row) * (180 / (float)Math.PI);
-            myShip = e as Ship;
-            myShip.shipParts.Add(this);
+            myShip = e as BaseShip;
 
             SetHitbox(32, 32);
 
             X = 100;
             Y = 100;
+
+            myShip.shipParts.Add(this);
         }
 
         public override void Update()
