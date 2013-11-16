@@ -65,10 +65,16 @@ namespace Testing.MainMenu
             base.Update();
             if (World.CollidePoint("ButtonState", Input.MouseX, Input.MouseY) != null)
             {
-                if(Mouse.IsButtonPressed(Mouse.Button.Left))
+                Button.Scale = 1.2f;
+
+                if (Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
                     FP.World = new SpaceWorld();
                 }
+            }
+            else
+            {
+               Button.Scale = 1f;
             }
             X = X;
             Y = Y;

@@ -226,7 +226,12 @@ namespace Testing
         public override void Update()
         {
             base.Update();
-
+            if (myShip.shipParts.Count < 1)
+            {
+                var Title = new Text("Game Over! Press R to Restart The Game.", 100, FP.HalfHeight - 200, 0, 0);
+                Title.Size = 100;
+                AddGraphic(Title);
+            }
             if (health <= 0)
             {
                 if (myShip != null)
