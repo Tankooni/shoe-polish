@@ -95,12 +95,12 @@ namespace Punk.Debugging
 			// The transparent FlashPunk logo overlay bitmap.
 			background = Image.CreateRect(FP.Width, FP.Height, FP.Color(0x0));
 			background.Alpha = BG_ALPHA;
+            background.CenterOO();
 			
 			logo = new Image(Library.GetTexture("Punk.Embeds/console_logo.png"));
 			logo.Alpha = LOGO_ALPHA;
 			logo.CenterOO();
-			logo.X = FP.HalfWidth;
-			logo.Y = FP.HalfHeight;
+			
 			
 //			_sprite.addChild(_back);
 //			_back.bitmapData = new BitmapData(width, height, true, 0xFFFFFFFF);
@@ -248,8 +248,13 @@ namespace Punk.Debugging
 				var view = new SFML.Graphics.View(FP.Screen.GetView());
 				
 				FP.Screen.SetView(FP.Screen.DefaultView);
+                background.X = FP.Camera.X;
+                background.Y = FP.Camera.Y;
 				background.Render(0, 0, FP.Camera);
+                logo.X = FP.Camera.X;
+                logo.Y = FP.Camera.Y;
 				logo.Render(0, 0, FP.Camera);
+
 				
 				FP.Screen.SetView(view);
 				RenderEntities();
@@ -353,8 +358,8 @@ namespace Punk.Debugging
 //						 Draw the normal hitbox and position.
 					
 						var color = FP.Color(0xff0000);
-						var x = e.X - e.OriginX + (FP.Camera.X - FP.HalfWidth);
-						var y = e.Y - e.OriginY + (FP.Camera.Y - FP.HalfHeight);
+						var x = e.X - e.OriginX - (FP.Camera.X - FP.HalfWidth);
+						var y = e.Y - e.OriginY - (FP.Camera.Y - FP.HalfHeight);
 						var width = e.Width;
 						var height = e.Height;
 					
@@ -366,8 +371,8 @@ namespace Punk.Debugging
 						}
 						
 						color = FP.Color(0x00ff00);
-						x = e.X + (FP.Camera.X - FP.HalfWidth) - 3;
-						y = e.Y + (FP.Camera.Y - FP.HalfHeight) - 3;
+						x = e.X - (FP.Camera.X - FP.HalfWidth) - 3;
+						y = e.Y - (FP.Camera.Y - FP.HalfHeight) - 3;
 						width = 6;
 						height = 6;
 						

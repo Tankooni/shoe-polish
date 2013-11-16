@@ -28,28 +28,28 @@ namespace Punk
 				Y = (int) FP.Rand(FP.Height);
 				
 				image.CenterOO();
-                SetHitboxTo(image);
+				SetHitboxTo(image);
 
-                CenterOrigin();
+				CenterOrigin();
 				
 				controller = new Controller(joyID);
 				controller.Disconnected += delegate { World.Remove(this); };
 
-                Type = "joyguy";
+				Type = "joyguy";
 
-                AddResponse("A", OnEnemyA);
+				AddResponse("A", OnEnemyA);
 
 				id = joyID;
 			}
 
-            private void OnEnemyA(params object[] ars)
-            {
-                ClearTweens();
-                //image.Scale = 1.3f;
-                var tween = new VarTween(null, ONESHOT);
-                tween.Tween(this, "Y", Y+100, 5, Ease.ElasticOut);
-                AddTween(tween, true);
-            }
+			private void OnEnemyA(params object[] ars)
+			{
+				ClearTweens();
+				//image.Scale = 1.3f;
+				var tween = new VarTween(null, ONESHOT);
+				tween.Tween(this, "Y", Y+100, 5, Ease.ElasticOut);
+				AddTween(tween, true);
+			}
 			
 			public override void Update()
 			{
@@ -57,42 +57,26 @@ namespace Punk
 				
 				if (controller.Pressed(Controller.Button.A))
 				{
-                    World.BroadcastMessage("A");
+					World.BroadcastMessage("A");
 				}
-                X = Input.MouseX;
-                Y = Input.MouseY;
-                //MoveBy(speed * controller.DPad.X, speed * controller.DPad.Y, Type);
+				//X = Input.MouseX;
+				//Y = Input.MouseY;
+				//MoveTo(X, Y);
+
+				//MoveBy(speed * controller.DPad.X, speed * controller.DPad.Y, Type);
 			}
 
-            public override bool MoveCollideX(Entity e)
-            {
-                e.X += 100;
+			public override bool MoveCollideX(Entity e)
+			{
+				e.X += 100;
 
-                FP.Log("OW");
-                return base.MoveCollideX(e);
-            }
-		}
-		
-		private class MyWorld : World
-		{
-			public MyWorld()
-			{
+				FP.Log("OW");
+				return base.MoveCollideX(e);
 			}
-			
-			public override void Begin()
-			{
-				base.Begin();
-				
-				FP.Engine.ClearColor = FP.Color(0xff00ff);
-                //Add(new JoystickGuy(0));
-				//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
-                Input.Pressed(Mouse.Button.Left); 
-			}
-			
 		}
 		
 		public Game() : 
-		base(640, 480, 60)
+		base(1280, 720, 60)
 		{
 		}
 		
@@ -100,7 +84,7 @@ namespace Punk
 		{
 			base.Init();
 			
-			FP.World = new MyWorld();
+			FP.World = new SpaceWorld();
 			FP.Screen.GainedFocus += delegate { Library.Reload(); };
 			FP.Console.Enable();
 		}
