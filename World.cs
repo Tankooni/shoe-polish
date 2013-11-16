@@ -776,7 +776,9 @@ namespace Punk
 		/// <param name="rHeight">Height of the rectangle.</param>
 		/// <returns>The first Entity to collide, or null if none collide.</returns>
 		public Entity CollideRect(string type, float rX, float rY, float rWidth, float rHeight)
-		{	
+		{
+            if (!_typeFirst.ContainsKey(type))
+            { return null; }
 			Entity e = _typeFirst[type];
 			while (e != null)
 			{
