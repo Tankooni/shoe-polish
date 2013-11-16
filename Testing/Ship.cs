@@ -184,6 +184,7 @@ namespace Testing
             CenterOrigin();
             FP.Camera.X = X;
             FP.Camera.Y = Y;
+            FP.Camera.Angle = ShipCenter.Angle-90;
         }
     }
 

@@ -24,7 +24,7 @@ namespace Punk
 		public override void Begin()
 		{
 			base.Begin();
-			FP.Engine.ClearColor = FP.Color(0xff00ff);
+			FP.Engine.ClearColor = FP.Color(0x000000);
 			for (int x = 0; x < Sectors.GetLength(0) - 1; x++)
 			{
 				for (int y = 0; y < Sectors.GetLength(1) - 1; y++)
@@ -43,7 +43,7 @@ namespace Punk
 				Add(new Part(2));
 			}
 			Add(new Part(e, 3, 0, 0));
-			FP.Log(WorldHeight);
+			//FP.Log(WorldHeight);
 			//Input.ControllerConnected += (s, e) => Add(new JoystickGuy(e.JoystickId));
 			//Input.Pressed(Mouse.Button.Left);
 		}
@@ -56,18 +56,18 @@ namespace Punk
 			{
                 PlayerShip.MoveTo(100, 100);
 			}
-			else if (Input.Down(Keyboard.Key.Down))
+			else if (Input.Pressed(Keyboard.Key.R))
 			{
-				Camera.Y += 10;
+                FP.World = new SpaceWorld();
 			}
 
 			if (Input.Down(Keyboard.Key.Left))
 			{
-				Camera.X -= 10;
+				
 			}
 			else if (Input.Down(Keyboard.Key.Right))
 			{
-				Camera.X += 10;
+				
 			}
 		}
 
