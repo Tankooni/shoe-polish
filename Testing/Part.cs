@@ -11,12 +11,12 @@ using Punk;
 
 namespace Testing
 {
-    public class PartBase : Entity
+    public abstract class PartBase : Entity
     {
         public int curRow;
         public int curCol;
         public Ship myShip;
-        public int health = 100;
+        public float health = 100;
 
         public PartBase(Entity e, int PartItem, int Col, int Row)
         {
@@ -32,6 +32,14 @@ namespace Testing
         public PartBase(Entity e, int Col, int Row)
         {
 
+        }
+
+        public virtual bool DoDamage(float damage)
+        {
+            health -= damage;
+            if (health < 0)
+                return true;
+            return false;
         }
     }
     public class Part : PartBase
@@ -224,7 +232,7 @@ namespace Testing
                 if (PartNum == 3)
                 {
                 
-                    FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
+                    //FP.Log(FP.Angle(X, Y, World.MouseX, World.MouseY));
                 
                 
                     if ((myShip.ShipCenter.Angle + 45 > FP.Angle(X, Y, World.MouseX, World.MouseY)) && (myShip.ShipCenter.Angle - 45 < FP.Angle(X, Y, World.MouseX, World.MouseY)))
@@ -300,6 +308,7 @@ namespace Testing
         public Bullet(float x, float y, Vector2f VelocityIn, Entity ShipIn)
             : base(x, y, Punk.SpaceWorld.WorldLength, Punk.SpaceWorld.WorldHeight)
         {
+            Type = "Bullet";
             Graphic = BulletShot = Image.CreateCircle(2, FP.Color(0x4083FF));
             X = x;
             Y = y;
@@ -312,32 +321,36 @@ namespace Testing
 
         public override bool MoveCollideX(Entity e)
         {
-            return base.MoveCollideX(e);
+            return Collided(e);
         }
         public override bool MoveCollideY(Entity e)
         {
-            return base.MoveCollideY(e);
+            return Collided(e);
         }
         public bool Collided(Entity e)
         {
-            if (e is PartBase)
+            if (e is Part)
             {
-                if ((e as PartBase).myShip == myShip)
+                if ((e as Part).myShip == myShip)
                 {
-                    FP.Log("Stop Hitting Yourself");
                     return false;
                 }
+                (e as Part).DoDamage(4);
             }
+            else if (e is Punk.Asteroid)
+                (e as Punk.Asteroid).DoDamage(4);
+            World.Remove(this);
             return true;
-             
+            
         }
 
         public override void Update()
         {
             base.Update();
+            MoveBy(Velocity.X * 2, Velocity.Y * 2, new string[] {"Asteroid", "Part"});
             if ((life -= FP.Elapsed) <= 0)
                 World.Remove(this);
-            MoveBy(Velocity.X * 2,  Velocity.Y * 2);
+            
         }
     }
 
