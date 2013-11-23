@@ -1,0 +1,10 @@
+C:\Working\C#\ShoePolish\bin\Release\Punk.dll
+C:\Working\C#\ShoePolish\bin\Release\Punk.xml
+C:\Working\C#\ShoePolish\bin\Release\Fasterflect.dll
+C:\Working\C#\ShoePolish\bin\Release\sfmlnet-audio-2.dll
+C:\Working\C#\ShoePolish\bin\Release\sfmlnet-graphics-2.dll
+C:\Working\C#\ShoePolish\bin\Release\sfmlnet-window-2.dll
+C:\Working\C#\ShoePolish\obj\Release\Punk.csprojResolveAssemblyReference.cache
+C:\Working\C#\ShoePolish\obj\Release\Punk.Resources.Embeds.resources
+C:\Working\C#\ShoePolish\obj\Release\Punk.csproj.GenerateResource.Cache
+C:\Working\C#\ShoePolish\obj\Release\Punk.dll

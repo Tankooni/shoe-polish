@@ -45,11 +45,17 @@ namespace Punk
 			Add(new Part(e, 1, 0, 0));
 			for (int i = 0; i < 5; i++)
 			{
-				Add(new Part(1));
-				Add(new Part(2));
+                Part n = new Part(1);
+                n.X = FP.Rand(800);
+                n.Y = FP.Rand(800);
+                Part nn = new Part(2);
+                nn.X = FP.Rand(800);
+                nn.Y = FP.Rand(800);
+				Add(n);
+				Add(nn);
 			}
 			Add(new Part(e, 3, 0, 0));
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 30; i++)
             {
                 Add(new EmptyShip());
             }
