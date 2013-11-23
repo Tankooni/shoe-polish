@@ -1,0 +1,9 @@
+C:\Working\C#\ShoePolish\Testing\bin\Release\Testing.exe
+C:\Working\C#\ShoePolish\Testing\bin\Release\Punk.dll
+C:\Working\C#\ShoePolish\Testing\bin\Release\sfmlnet-audio-2.dll
+C:\Working\C#\ShoePolish\Testing\bin\Release\sfmlnet-graphics-2.dll
+C:\Working\C#\ShoePolish\Testing\bin\Release\sfmlnet-window-2.dll
+C:\Working\C#\ShoePolish\Testing\bin\Release\Fasterflect.dll
+C:\Working\C#\ShoePolish\Testing\bin\Release\Punk.xml
+C:\Working\C#\ShoePolish\Testing\obj\x86\Release\Testing.csprojResolveAssemblyReference.cache
+C:\Working\C#\ShoePolish\Testing\obj\x86\Release\Testing.exe
